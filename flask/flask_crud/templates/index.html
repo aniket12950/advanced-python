@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container my-3">
+    <div class="d-flex justify-content-between align-items-center">
+
+        <!-- Add Employee Button -->
+        <a href="{{ url_for('add') }}" class="btn btn-success">
+            ➕ Add Employee
+        </a>
+
+        <!-- Search Box -->
+        <input 
+            type="text" 
+            id="searchBox" 
+            class="form-control w-25"
+            placeholder="🔍 Search employee..."
+        >
+
+    </div>
+</div>
+
+
+<table>
+    <thead>
+        <tr>
+            <th onclick="toggleSort()" style="cursor:pointer">
+                ID <span id="arrow">⬆</span>
+            </th>
+            <th>Name</th>
+            <th>Join Date</th>
+            <th>Salary</th>
+            <th>Designation</th>
+            <th>Department</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+        <!-- data loaded by JS -->
+    </tbody>
+</table>
+
+<script>
+let order = "asc";
+
+function loadData(query = "") {
+    fetch(`/search?q=${query}&order=${order}`)
+        .then(res => res.json())
+        .then(data => {
+            const tbody = document.getElementById("tableBody");
+            tbody.innerHTML = "";
+
+            data.forEach(emp => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${emp.id}</td>
+                        <td>${emp.name}</td>
+                        <td>${emp.join_date}</td>
+                        <td>${emp.salary}</td>
+                        <td>${emp.designation}</td>
+                        <td>${emp.department}</td>
+                        <td>
+                            <a href="/edit/${emp.id}">✏ Edit</a> |
+                            <a href="/delete/${emp.id}">❌ Delete</a>
+                        </td>
+                    </tr>
+                `;
+            });
+        });
+}
+
+function toggleSort() {
+    order = order === "asc" ? "desc" : "asc";
+    document.getElementById("arrow").innerText = order === "asc" ? "⬆" : "⬇";
+    loadData(document.getElementById("searchBox").value);
+}
+
+document.getElementById("searchBox").addEventListener("keyup", function () {
+    loadData(this.value);
+});
+
+// Initial load
+loadData();
+</script>
+
+{% endblock %}

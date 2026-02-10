@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>Edit Employee</h3>
+
+<form method="post">
+    Name: <input type="text" name="name" value="{{ employee.name }}" required><br><br>
+    Join Date: <input type="date" name="join_date" value="{{ employee.join_date }}" required><br><br>
+    Salary: <input type="number" name="salary" value="{{ employee.salary }}" required><br><br>
+    Designation: <input type="text" name="designation" value="{{ employee.designation }}" required><br><br>
+    Department: <input type="text" name="department" value="{{ employee.department }}" required><br><br>
+
+    <button type="submit">Update</button>
+</form>
+
+{% endblock %}
