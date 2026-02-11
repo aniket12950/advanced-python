@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="dashboard">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>AP System</h2>
+        <ul>
+            <li><a href="#">🏠 Home</a></li>
+            <li><a href="#">👤 Profile</a></li>
+            <li><a href="#">📊 Reports</a></li>
+            <li><a href="#">⚙ Settings</a></li>
+            <li><a href="{{ url_for('auth.logout') }}">🚪 Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 class="animate-fade">Dashboard Overview</h1>
+          <div class="welcome-box">
+            <h2>Welcome, {{ current_user.username }} 👋</h2>
+            <p>Glad to see you back!</p>
+        </div>
+        <div class="card-grid">
+            <div class="card hover-card">
+                <h3>Total Users</h3>
+                <p>120</p>
+            </div>
+
+            <div class="card hover-card">
+                <h3>Active Sessions</h3>
+                <p>35</p>
+            </div>
+
+            <div class="card hover-card">
+                <h3>Revenue</h3>
+                <p>₹75,000</p>
+            </div>
+
+            <div class="card hover-card">
+                <h3>Tasks</h3>
+                <p>18 Pending</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
