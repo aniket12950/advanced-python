@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student & Course Management</title>
+    <link rel="stylesheet" href="{% static 'django_models/style.css' %}">
+    <script>
+        function searchStudent() {
+            let input = document.getElementById("searchInput");
+            let filter = input.value.toLowerCase();
+            let table = document.getElementById("studentTable");
+            let tr = table.getElementsByTagName("tr");
+
+            for (let i = 1; i < tr.length; i++) {
+                let rowText = tr[i].innerText.toLowerCase();
+                tr[i].style.display = rowText.includes(filter) ? "" : "none";
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Student & Course Management System</h1>
+    </header>
+
+    <!-- Search Box -->
+    <div class="search-box">
+        <input type="text" id="searchInput" onkeyup="searchStudent()" placeholder="Search student by name or email...">
+    </div>
+
+    <!-- Students Section -->
+    <section>
+        <h2>Students & Allocated Courses</h2>
+
+        {% if students %}
+        <table id="studentTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Student Name</th>
+                    <th>Email</th>
+                    <th>Allocated Courses</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ student.first_name }} {{ student.last_name }}</td>
+                    <td>{{ student.email }}</td>
+                    <td>
+                        {% if student.courses.all %}
+                            {% for course in student.courses.all %}
+                                <span class="badge">{{ course.name }}</span>
+                            {% empty %}
+                                <span class="no-course">Not Enrolled</span>
+                            {% endfor %}
+                        {% else %}
+                            <span class="no-course">Not Enrolled</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p class="empty">No students available.</p>
+        {% endif %}
+    </section>
+
+</div>
+
+<footer>
+    <p>© 2026 Student Management System | Developed with Django</p>
+</footer>
+
+</body>
+</html>
